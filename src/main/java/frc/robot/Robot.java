@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {}
-    private CANSparkMax motor = new CANSparkMax(123, CANSparkLowLevel.MotorType.kBrushless);
+    private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
 
   @Override
   public void robotPeriodic() {
