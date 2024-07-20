@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.BuildConstants;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
+import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.CANSparkMax;
+
 public class Robot extends TimedRobot {
   public Robot() {
     DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1500).withNtPublish(true));
@@ -50,10 +53,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 
+  private CANSparkMax motar = new CANSparkMax (123, CANSparkLowLevel.MotorType.kBrushless);
+
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
   }
+
+motor.set(0.3);
 
   @Override
   public void disabledInit() {}
