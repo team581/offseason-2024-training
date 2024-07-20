@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    motor.set(0.3);
+    motor.set(0.25);
   }
 
   @Override
