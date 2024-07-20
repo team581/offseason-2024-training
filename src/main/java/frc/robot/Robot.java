@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.CANSparkMax;
+
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -50,9 +53,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 
+  private CANSparkMax motor = new CANSparkMax(123, CANSparkLowLevel.MotorType.kBrushless);
+
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    motor.set(0.3);
   }
 
   @Override
