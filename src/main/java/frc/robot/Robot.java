@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {}
 // Create a motor here using a sparkMAX
   private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
-  private XboxController controller = new XboxController(0)
+  private XboxController controller = new XboxController(0);
 
   @Override
   public void robotPeriodic() {
