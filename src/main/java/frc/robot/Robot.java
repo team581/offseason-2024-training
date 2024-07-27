@@ -53,14 +53,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 
-  private CANSparkMax motar = new CANSparkMax (123, CANSparkLowLevel.MotorType.kBrushless);
+  private CANSparkMax motor = new CANSparkMax (123, CANSparkLowLevel.MotorType.kBrushless);
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    motor.set(0.3);
   }
 
-motor.set(0.3);
 
   @Override
   public void disabledInit() {}
