@@ -4,7 +4,6 @@
 
 package frc.robot.util.scheduling;
 
-import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class LifecycleSubsystemManager {
   }
 
   public void log() {
-    DogLog.log("Scheduler/Stage", getStage().toString());
+    // DogLog.log("Scheduler/Stage", getStage().toString());
   }
 
   void registerSubsystem(LifecycleSubsystem subsystem) {

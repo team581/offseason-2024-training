@@ -4,7 +4,6 @@
 
 package frc.robot.util;
 
-import dev.doglog.DogLog;
 import edu.wpi.first.hal.HALUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +34,10 @@ public class Stopwatch {
   public void stop(String name) {
     double timestamp = getTimestamp();
     double lastTimestamp = lastTimestamps.get(name);
-    DogLog.log(name, timestamp - lastTimestamp);
+    // DogLog.log(name, timestamp - lastTimestamp);
   }
 
   public void skip(String name) {
-    DogLog.log(name, -1.0);
+    // DogLog.log(name, -1.0);
   }
 }

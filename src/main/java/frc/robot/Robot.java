@@ -4,40 +4,16 @@
 
 package frc.robot;
 
-import dev.doglog.DogLog;
-import dev.doglog.DogLogOptions;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.generated.BuildConstants;
-import frc.robot.util.scheduling.LifecycleSubsystemManager;
-
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
 public class Robot extends TimedRobot {
   public Robot() {
-    DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1500).withNtPublish(true));
-
-    // Record metadata
-    DogLog.log("Metadata/ProjectName", BuildConstants.MAVEN_NAME);
-    DogLog.log("Metadata/BuildDate", BuildConstants.BUILD_DATE);
-    DogLog.log("Metadata/GitSHA", BuildConstants.GIT_SHA);
-    DogLog.log("Metadata/GitDate", BuildConstants.GIT_DATE);
-    DogLog.log("Metadata/GitBranch", BuildConstants.GIT_BRANCH);
-
-    switch (BuildConstants.DIRTY) {
-      case 0:
-        DogLog.log("Metadata/GitDirty", "All changes committed");
-        break;
-      case 1:
-        DogLog.log("Metadata/GitDirty", "Uncomitted changes");
-        break;
-      default:
-        DogLog.log("Metadata/GitDirty", "Unknown");
-        break;
-    }
-
     // This must be run before any commands are scheduled
     LifecycleSubsystemManager.getInstance().ready();
 
@@ -53,14 +29,23 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 
-  private CANSparkMax motor = new CANSparkMax (123, CANSparkLowLevel.MotorType.kBrushless);
+  private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+  private XboxController driver = new XboxController(0);
+  // TODO: Create an xbox controller for id 0
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    motor.set(0.3);
-  }
+    //  if the a button is pressed, do 80% voltage
+    // otherwise, 0 voltage
 
+    if (driver.getAButton() ) {
+      motor.set(0.5);
+    }
+    else {
+      motor.set(0.0);
+    }
+  }
 
   @Override
   public void disabledInit() {}
