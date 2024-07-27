@@ -7,10 +7,13 @@ package frc.robot;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.BuildConstants;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
+
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 
 public class Robot extends TimedRobot {
@@ -51,12 +54,18 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
     private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+    private XboxController driver = new XboxController(0);
+    
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    motor.set(0.25);
+    if (driver.getAButton()) {
+    motor.set(.8);
+    } else {
+      motor.set(0);
+    }
   }
 
   @Override
