@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.BuildConstants;
+import frc.robot.queuer.QueuerSubsystem;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
 import com.revrobotics.CANSparkLowLevel;
@@ -46,27 +47,26 @@ public class Robot extends TimedRobot {
 
     configureBindings();
   }
-
   private void configureBindings() {
     // TODO: Add bindings
   }
 
   @Override
   public void robotInit() {}
-    private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
-    private XboxController driver = new XboxController(0);
+
+    private final CANSparkMax queuerMotor =
+      new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+
+    private final XboxController controller = new XboxController(0);
+
+    //create QueuerSubsystem and provide motor from above
+    private final QueuerSubsystem queuer = new QueuerSubsystem(queuerMotor);
     
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if (driver.getAButton()) {
-    motor.set(.8);
-    } else {
-      motor.set(0);
-    }
-  }
 
   @Override
   public void disabledInit() {}
