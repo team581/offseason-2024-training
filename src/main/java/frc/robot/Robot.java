@@ -19,7 +19,7 @@ import com.revrobotics.CANSparkMax;
 
 public class Robot extends TimedRobot {
   public Robot() {
-    DogLog.setOptions(new DogLogOptions().withLogEntryQueueCapacity(1500).withNtPublish(true));
+    DogLog.setOptions(new DogLogOptions().withNtPublish(true));
 
     // Record metadata
     DogLog.log("Metadata/ProjectName", BuildConstants.MAVEN_NAME);
@@ -66,6 +66,29 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+  
+  
+  // left trigger: intake
+  // right trigger: shoot
+
+  DogLog.log("Test/RobotPeriodic", true);
+
+  queuer.setIntakeMode(controller.getLeftTriggerAxis() >= 0.5);
+  queuer.setShootingMode(controller.getRightTriggerAxis() >= 0.5);
+
+  // if (controller.getLeftTriggerAxis() >= 0.5) {
+  //   queuer.setIntakeMode(true);
+  // } else if (controller.getLeftTriggerAxis() < 0.5) {
+  //   queuer.setIntakeMode(false);
+  // }
+  
+  // if (controller.getRightTriggerAxis() >= 0.5) {
+  //   queuer.setShootingMode(true);
+  // } else if (controller.getRightTriggerAxis() < 0.5) {
+  //   queuer.setShootingMode(false);
+  // }
+  
+  }
 
 
   @Override

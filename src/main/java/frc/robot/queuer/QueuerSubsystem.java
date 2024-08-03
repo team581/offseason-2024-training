@@ -2,6 +2,7 @@ package frc.robot.queuer;
 
 import com.revrobotics.CANSparkMax;
 
+import dev.doglog.DogLog;
 import frc.robot.util.scheduling.LifecycleSubsystem;
 import frc.robot.util.scheduling.SubsystemPriority;
 
@@ -22,6 +23,9 @@ public class QueuerSubsystem extends LifecycleSubsystem{
 
     @Override
     public void robotPeriodic() {
+        DogLog.log("Queuer/IntakeMode", intaking);
+        DogLog.log("Queuer/ShootingMode", shooting);
+
         if (intaking) {
             motor.set(0.3);
         } else if (shooting) {
@@ -33,10 +37,10 @@ public class QueuerSubsystem extends LifecycleSubsystem{
         //if shooting set motor voltage to -0.5
         //if neither set voltage to 0
     }
-public boolean setIntakeMode() {
-   return intaking = true;
+public void setIntakeMode(boolean enabled) {
+    intaking = enabled;
 }
-public boolean setShootingMode() {
-    return shooting = true;
+public void setShootingMode(boolean on) {
+    shooting = on;
 }
 }
