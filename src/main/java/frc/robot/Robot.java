@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Queuer.QueuerSubsystem;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
 public class Robot extends TimedRobot {
@@ -38,14 +39,25 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     //  if the a button is pressed, do 80% voltage
     // otherwise, 0 voltage
-
     if (driver.getAButton() ) {
       motor.set(0.5);
     }
     else {
-      motor.set(0.0);
+      //motor.set(0.0);
     }
+    if (driver.getLeftTriggerAxis() > 0.5) {
+      queuer.setIntakeMode(true);
+    }
+
+    if (driver.getRightTriggerAxis() > 0.5) {
+      queuer.setShootingMode(true);
+    }
+
+
   }
+
+  private QueuerSubsystem queuer = new QueuerSubsystem(motor);
+
 
   @Override
   public void disabledInit() {}
