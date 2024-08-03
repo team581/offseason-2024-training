@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.BuildConstants;
 import frc.robot.queuer.QueuerSubsystem;
+import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
 
@@ -58,16 +59,18 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 // Create a motor here using a sparkMAX
-  private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+  private CANSparkMax motor1 = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+  private CANSparkMax motor2 = new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
   private XboxController controller = new XboxController(0);
-  private QueuerSubsystem queuer = new QueuerSubsystem(motor);
+  private QueuerSubsystem queuer = new QueuerSubsystem(motor1);
+  private ShooterSubsystem shooter = new ShooterSubsystem(motor2);
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
     if(controller.getAButton()) {
-      motor.set(0.8);
+      motor1.set(0.8);
     } else {
       //motor.set(0.0);
     }
@@ -85,6 +88,18 @@ public class Robot extends TimedRobot {
     } else {
       queuer.setShootingMode(false);
     }
+
+    if(controller.getLefStickButtonPressed()) {
+      shooter.setIntakeMode(true);
+    } else {
+      shooter.setIntakeMode(false);
+    }
+     if(controller.getRightStickButtonPressed()){
+      shooter.setShootingMode(true);
+    } else {
+      shooter.setShootingMode(false);
+    }
+
   }
 
 
