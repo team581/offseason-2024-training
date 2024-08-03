@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.CANSparkMax;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -13,9 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.BuildConstants;
 import frc.robot.queuer.QueuerSubsystem;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
-
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 
 public class Robot extends TimedRobot {
   public Robot() {
@@ -47,6 +46,7 @@ public class Robot extends TimedRobot {
 
     configureBindings();
   }
+
   private void configureBindings() {
     // TODO: Add bindings
   }
@@ -54,42 +54,37 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {}
 
-    private final CANSparkMax queuerMotor =
+  private final CANSparkMax queuerMotor =
       new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
 
-    private final XboxController controller = new XboxController(0);
+  private final XboxController controller = new XboxController(0);
 
-    //create QueuerSubsystem and provide motor from above
-    private final QueuerSubsystem queuer = new QueuerSubsystem(queuerMotor);
-    
+  // create QueuerSubsystem and provide motor from above
+  private final QueuerSubsystem queuer = new QueuerSubsystem(queuerMotor);
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-  
-  
-  // left trigger: intake
-  // right trigger: shoot
 
-  DogLog.log("Test/RobotPeriodic", true);
+    // left trigger: intake
+    // right trigger: shoot
 
-  queuer.setIntakeMode(controller.getLeftTriggerAxis() >= 0.5);
-  queuer.setShootingMode(controller.getRightTriggerAxis() >= 0.5);
+    queuer.setIntakeMode(controller.getLeftTriggerAxis() >= 0.5);
+    queuer.setShootingMode(controller.getRightTriggerAxis() >= 0.5);
 
-  // if (controller.getLeftTriggerAxis() >= 0.5) {
-  //   queuer.setIntakeMode(true);
-  // } else if (controller.getLeftTriggerAxis() < 0.5) {
-  //   queuer.setIntakeMode(false);
-  // }
-  
-  // if (controller.getRightTriggerAxis() >= 0.5) {
-  //   queuer.setShootingMode(true);
-  // } else if (controller.getRightTriggerAxis() < 0.5) {
-  //   queuer.setShootingMode(false);
-  // }
-  
+    // if (controller.getLeftTriggerAxis() >= 0.5) {
+    //   queuer.setIntakeMode(true);
+    // } else if (controller.getLeftTriggerAxis() < 0.5) {
+    //   queuer.setIntakeMode(false);
+    // }
+
+    // if (controller.getRightTriggerAxis() >= 0.5) {
+    //   queuer.setShootingMode(true);
+    // } else if (controller.getRightTriggerAxis() < 0.5) {
+    //   queuer.setShootingMode(false);
+    // }
+
   }
-
 
   @Override
   public void disabledInit() {}
