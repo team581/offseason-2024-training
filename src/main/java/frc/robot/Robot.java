@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -68,15 +69,24 @@ public class Robot extends TimedRobot {
     if(controller.getAButton()) {
       motor.set(0.8);
     } else {
-      motor.set(0.0);
+      //motor.set(0.0);
     }
 
-    if(controller.getLeftStickButtonPressed()) {
+    //boolean isLeftTriggerPressed = controller.getLeftTriggerAxis() > 0.5;
+    //queuer.setIntakeMode(controller.getLeftTriggerAxis() > 0.5);
+
+    if(controller.getLeftTriggerAxis() > 0.5) {
       queuer.setIntakeMode(true);
-    } else if(controller.getRightStickButtonPressed()){
+    } else {
+      queuer.setIntakeMode(false);
+    }
+     if(controller.getRightTriggerAxis() > 0.5){
       queuer.setShootingMode(true);
+    } else {
+      queuer.setShootingMode(false);
     }
   }
+
 
   @Override
   public void disabledInit() {}

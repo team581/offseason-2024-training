@@ -18,9 +18,9 @@ public class QueuerSubsystem extends LifecycleSubsystem {
   @Override
   public void robotPeriodic() {
       //If no intaking. set motor voltage to 0.3
-      if(intaking == false) {
+      if(intaking == true) {
           motor.set(0.3);
-      } else if(shooting == false) {
+      } else if(shooting == true) {
           motor.set(-0.5);
       } else {
           motor.set(0);
