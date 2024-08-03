@@ -9,11 +9,13 @@ import com.revrobotics.CANSparkMax;
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.BuildConstants;
 import frc.robot.queuer.QueuerSubsystem;
+import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.scheduling.LifecycleSubsystemManager;
 
 public class Robot extends TimedRobot {
@@ -57,10 +59,15 @@ public class Robot extends TimedRobot {
   private final CANSparkMax queuerMotor =
       new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
 
-  private final XboxController controller = new XboxController(0);
+  private final CommandXboxController controller = new CommandXboxController(0);
 
   // create QueuerSubsystem and provide motor from above
   private final QueuerSubsystem queuer = new QueuerSubsystem(queuerMotor);
+
+  private final CANSparkMax shooterMotor = 
+    new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
+
+  private final ShooterSubsystem shooter = new ShooterSubsystem(shooterMotor);
 
   @Override
   public void robotPeriodic() {
@@ -69,8 +76,23 @@ public class Robot extends TimedRobot {
     // left trigger: intake
     // right trigger: shoot
 
-    queuer.setIntakeMode(controller.getLeftTriggerAxis() >= 0.5);
-    queuer.setShootingMode(controller.getRightTriggerAxis() >= 0.5);
+    // queuer.setIntakeMode(controller.getLeftTriggerAxis() >= 0.5);
+    // queuer.setShootingMode(controller.getRightTriggerAxis() >= 0.5);
+
+    controller
+        .leftTrigger()
+        .onTrue(shooter.setIntakeCommand(true)
+        .alongWith(queuer.setIntakeCommand(true)))
+        .onFalse(shooter.setIntakeCommand(false)
+        .alongWith(queuer.setIntakeCommand(false)));
+
+    controller
+        .a()
+        .onTrue(shooter.setShootingCommand(true)
+        .andThen(Commands.waitSeconds(1))
+        .alongWith(queuer.setShootingCommand(true)))
+        .onFalse(shooter.setShootingCommand(false)
+        .alongWith(queuer.setShootingCommand(false)));
 
     // if (controller.getLeftTriggerAxis() >= 0.5) {
     //   queuer.setIntakeMode(true);

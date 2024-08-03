@@ -5,6 +5,7 @@
 package frc.robot.queuer;
 
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.scheduling.LifecycleSubsystem;
 import frc.robot.util.scheduling.SubsystemPriority;
 
@@ -37,11 +38,25 @@ public class QueuerSubsystem extends LifecycleSubsystem {
     // if neither set voltage to 0
   }
 
-  public void setIntakeMode(boolean enabled) {
-    intaking = enabled;
+  public void setIntakeMode(boolean on) {
+    intaking = on;
   }
 
   public void setShootingMode(boolean on) {
     shooting = on;
+  }
+
+  public Command setIntakeCommand(boolean on) {
+    return runOnce(
+        () -> {
+          setIntakeMode(on);
+        });
+  }
+
+  public Command setShootingCommand(boolean on) {
+    return runOnce(
+        () -> {
+            setShootingMode(on);
+        });
   }
 }
