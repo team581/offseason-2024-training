@@ -64,8 +64,8 @@ public class Robot extends TimedRobot {
   // create QueuerSubsystem and provide motor from above
   private final QueuerSubsystem queuer = new QueuerSubsystem(queuerMotor);
 
-  private final CANSparkMax shooterMotor = 
-    new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
+  private final CANSparkMax shooterMotor =
+      new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
 
   private final ShooterSubsystem shooter = new ShooterSubsystem(shooterMotor);
 
@@ -81,18 +81,20 @@ public class Robot extends TimedRobot {
 
     controller
         .leftTrigger()
-        .onTrue(shooter.setIntakeCommand(true)
-        .alongWith(queuer.setIntakeCommand(true)))
-        .onFalse(shooter.setIntakeCommand(false)
-        .alongWith(queuer.setIntakeCommand(false)));
+        .onTrue(shooter.setIntakeCommand(true).alongWith(queuer.setIntakeCommand(true)))
+        .onFalse(shooter.setIntakeCommand(false).alongWith(queuer.setIntakeCommand(false)));
 
     controller
-        .a()
-        .onTrue(shooter.setShootingCommand(true)
-        .andThen(Commands.waitSeconds(1))
-        .alongWith(queuer.setShootingCommand(true)))
-        .onFalse(shooter.setShootingCommand(false)
-        .alongWith(queuer.setShootingCommand(false)));
+        .rightTrigger()
+        .onTrue(
+            shooter
+                .setShootingCommand(true)
+                .andThen(Commands.waitSeconds(1))
+                .alongWith(queuer.setShootingCommand(true))
+                .andThen(Commands.waitSeconds(3))
+                .andThen(
+                    shooter.setShootingCommand(false).alongWith(queuer.setShootingCommand(false))))
+        .onFalse(shooter.setShootingCommand(false).alongWith(queuer.setShootingCommand(false)));
 
     // if (controller.getLeftTriggerAxis() >= 0.5) {
     //   queuer.setIntakeMode(true);

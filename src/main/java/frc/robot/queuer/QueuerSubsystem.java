@@ -27,9 +27,9 @@ public class QueuerSubsystem extends LifecycleSubsystem {
   @Override
   public void robotPeriodic() {
     if (intaking) {
-      motor.set(0.3);
+      motor.set(-0.3);
     } else if (shooting) {
-      motor.set(-0.5);
+      motor.set(0.3);
     } else {
       motor.set(0);
     }
@@ -56,7 +56,7 @@ public class QueuerSubsystem extends LifecycleSubsystem {
   public Command setShootingCommand(boolean on) {
     return runOnce(
         () -> {
-            setShootingMode(on);
+          setShootingMode(on);
         });
   }
 }
