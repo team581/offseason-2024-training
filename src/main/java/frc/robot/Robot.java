@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -53,53 +52,75 @@ public class Robot extends TimedRobot {
   }
 
   private void configureBindings() {
-
+    if(controller.getLeftTriggerAxis() > 0.5) {
+      queuer.setIntakeMode(true);
+      shooter.setIntakeMode(true);
+  } else {
+    queuer.setIntakeMode(false);
+    shooter.setIntakeMode(false);
   }
+
+  if(controller.getRightTriggerAxis() > 0.5) {
+     shooter.setShootingMode(true);
+      if(controller.onTrue()) {
+     queuer.setShootingMode(true);
+      }
+      if(controller.onTrue()) {
+        motor.set(0.0);
+        break;
+      }
+  }
+}
+   
+
 
   @Override
   public void robotInit() {}
 // Create a motor here using a sparkMAX
-  private CANSparkMax motor1 = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
+  private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
   private CANSparkMax motor2 = new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
   private XboxController controller = new XboxController(0);
-  private QueuerSubsystem queuer = new QueuerSubsystem(motor1);
+  private  QueuerSubsystem queuer = new QueuerSubsystem(motor);
   private ShooterSubsystem shooter = new ShooterSubsystem(motor2);
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if(controller.getAButton()) {
-      motor1.set(0.8);
+    if(controller.getRightTriggerAxis){
+        new controller.onTrue();
     } else {
-      //motor.set(0.0);
+      new controller.onFalse();
     }
 
-    //boolean isLeftTriggerPressed = controller.getLeftTriggerAxis() > 0.5;
-    //queuer.setIntakeMode(controller.getLeftTriggerAxis() > 0.5);
+
+    if(controller.getAButton()) {
+      motor.set(0.8);
+    } else {
+      motor.set(0.0);
+    }
 
     if(controller.getLeftTriggerAxis() > 0.5) {
       queuer.setIntakeMode(true);
-    } else {
+    }else{
       queuer.setIntakeMode(false);
     }
-     if(controller.getRightTriggerAxis() > 0.5){
+    if(controller.getRightTriggerAxis() > 0.5) {
       queuer.setShootingMode(true);
-    } else {
+    }else{
       queuer.setShootingMode(false);
     }
 
-    if(controller.getLefStickButtonPressed()) {
+    if(controller.getLeftTriggerAxis() > 0.5) {
       shooter.setIntakeMode(true);
-    } else {
+    }else{
       shooter.setIntakeMode(false);
     }
-     if(controller.getRightStickButtonPressed()){
+    if(controller.getRightTriggerAxis() > 0.5) {
       shooter.setShootingMode(true);
-    } else {
+    }else{
       shooter.setShootingMode(false);
     }
-
   }
 
 
@@ -133,6 +154,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+
+    //No special commands here, on the subsystem
   }
 
   @Override
