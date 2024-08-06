@@ -29,9 +29,11 @@ public class ShooterSubsystem extends LifecycleSubsystem {
 
   public void setIntakeMode(boolean in) {
     intaking = in;
+    intaking = false;
   }
   public void setShootingMode(boolean shoot){
     shooting = shoot;
+    shooting = false;
   }
 }
 
