@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
   }
 
   private void configureBindings() {
-    // TODO: Add bindings
     driver.a().onTrue(Commands.runOnce(() -> shooter.setShootingCommand(true)));
    }
 
@@ -46,31 +45,30 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    //  if the a button is pressed, do 80% voltage
-    // otherwise, 0 voltage
-    if (driver.getAButton() ) {
-      motor.set(0.5);
-    }
-    else {
-      motor.set(0.0);
-    }
-    if (driver.getLeftTriggerAxis() > 0.5) {
-      queuer.setIntakeMode(true);
-    }
-    else if (driver.getLeftTriggerAxis() < 0.5) {
-      queuer.setIntakeMode(false);
-    }
-    if (driver.getRightTriggerAxis() > 0.5) {
-      shooter.setShootingMode(true);
-      Commands.waitSeconds(1);
-      queuer.setShootingMode(true);
-      Commands.waitSeconds(0.5);
-      shooter.setShootingMode(false);
-      queuer.setIntakeMode(false);
-    }
-    else if (driver.getRightTriggerAxis() < 0.5) {
-      shooter.setShootingMode(false);
-    }
+
+    // if (driver.getAButton() ) {
+    //   motor.set(0.5);
+    // }
+    // else {
+    //   motor.set(0.0);
+    // }
+    // if (driver.getLeftTriggerAxis() > 0.5) {
+    //   queuer.setIntakeMode(true);
+    // }
+    // else if (driver.getLeftTriggerAxis() < 0.5) {
+    //   queuer.setIntakeMode(false);
+    // }
+    // if (driver.getRightTriggerAxis() > 0.5) {
+    //   shooter.setShootingMode(true);
+    //   Commands.waitSeconds(1);
+    //   queuer.setShootingMode(true);
+    //   Commands.waitSeconds(0.5);
+    //   shooter.setShootingMode(false);
+    //   queuer.setIntakeMode(false);
+    // }
+    // else if (driver.getRightTriggerAxis() < 0.5) {
+    //   shooter.setShootingMode(false);
+    // }
 
 
 
