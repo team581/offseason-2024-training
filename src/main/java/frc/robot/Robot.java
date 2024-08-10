@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.BuildConstants;
 import frc.robot.queuer.QueuerSubsystem;
 import frc.robot.shooter.ShooterSubsystem;
@@ -54,7 +55,27 @@ public class Robot extends TimedRobot {
   }
 
   private void configureBindings() {
+    controller.a().onTrue(Commands.runOnce(
+      () -> shooter.setShootingMode(true)
+    ));
 
+    controller
+      .rightTrigger(0.5)
+      .onTrue(Commands.runOnce(
+          () -> shooter.setShootingMode(true)
+        )
+        .andThen(Commands.waitSeconds(1.0))
+        .andThen(Commands.runOnce(
+          () -> queuer.setShootingMode(true)
+        )
+        .andThen(Commands.waitSeconds(0.5))
+        .andThen(Commands.runOnce(
+          () -> queuer.setShootingMode(true)
+        ))
+        .andThen(Commands.runOnce(
+          () -> shooter.setShootingMode(true)
+        ))
+      ));
   }
 
 
@@ -64,7 +85,7 @@ public class Robot extends TimedRobot {
 // Create a motor here using a sparkMAX
   private CANSparkMax motor = new CANSparkMax(10, CANSparkLowLevel.MotorType.kBrushless);
   private CANSparkMax motor2 = new CANSparkMax(11, CANSparkLowLevel.MotorType.kBrushless);
-  private XboxController controller = new XboxController(0);
+  private CommandXboxController controller = new CommandXboxController(0);
   private  QueuerSubsystem queuer = new QueuerSubsystem(motor);
   private ShooterSubsystem shooter = new ShooterSubsystem(motor2);
 
@@ -73,32 +94,32 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
 
-    if(controller.getAButton()) {
-      motor.set(0.8);
-    } else {
-     // motor.set(0.0);
-    }
+    // if(controller.getAButton()) {
+    //   motor.set(0.8);
+    // } else {
+    //  // motor.set(0.0);
+    // }
 
-    if(controller.getLeftTriggerAxis() > 0.5) {
-      queuer.setIntakeMode(true);
-      shooter.setIntakeMode(true);
-    }else{
-      queuer.setIntakeMode(false);
-      shooter.setIntakeMode(false);
-    }
+    // if(controller.getLeftTriggerAxis() > 0.5) {
+    //   queuer.setIntakeMode(true);
+    //   shooter.setIntakeMode(true);
+    // }else{
+    //   queuer.setIntakeMode(false);
+    //   shooter.setIntakeMode(false);
+    // }
 
-    if(controller.getRightTriggerAxis() > 0.5) {
-      shooter.setShootingMode(true);
-      Commands.waitSeconds(1);
-      queuer.setShootingMode(true);
-      Commands.waitSeconds(0.5);
-      //queuer.setShootingMode(false);
-      //shooter.setShootingMode(false);
-    }
-    else{
-      queuer.setShootingMode(false);
-      shooter.setShootingMode(false);
-    }
+    // if(controller.getRightTriggerAxis() > 0.5) {
+    //   shooter.setShootingMode(true);
+    //   Commands.waitSeconds(1);
+    //   queuer.setShootingMode(true);
+    //   Commands.waitSeconds(0.5);
+    //   //queuer.setShootingMode(false);
+    //   //shooter.setShootingMode(false);
+    // }
+    // else{
+    //   queuer.setShootingMode(false);
+    //   shooter.setShootingMode(false);
+    // }
   }
 
 
