@@ -92,8 +92,8 @@ public class Robot extends TimedRobot {
       Commands.waitSeconds(1);
       queuer.setShootingMode(true);
       Commands.waitSeconds(0.5);
-      queuer.setIntakeMode(false);
-      shooter.setIntakeMode(false);
+      //queuer.setShootingMode(false);
+      //shooter.setShootingMode(false);
     }
     else{
       queuer.setShootingMode(false);
