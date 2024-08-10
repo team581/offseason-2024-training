@@ -13,7 +13,9 @@ import dev.doglog.DogLogOptions;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.generated.BuildConstants;
 import frc.robot.queuer.QueuerSubsystem;
 import frc.robot.shooter.ShooterSubsystem;
@@ -52,26 +54,9 @@ public class Robot extends TimedRobot {
   }
 
   private void configureBindings() {
-    if(controller.getLeftTriggerAxis() > 0.5) {
-      queuer.setIntakeMode(true);
-      shooter.setIntakeMode(true);
-  } else {
-    queuer.setIntakeMode(false);
-    shooter.setIntakeMode(false);
+
   }
 
-  if(controller.getRightTriggerAxis() > 0.5) {
-     shooter.setShootingMode(true);
-      if(controller.onTrue()) {
-     queuer.setShootingMode(true);
-      }
-      if(controller.onTrue()) {
-        motor.set(0.0);
-        break;
-      }
-  }
-}
-   
 
 
   @Override
@@ -87,38 +72,31 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if(controller.getRightTriggerAxis){
-        new controller.onTrue();
-    } else {
-      new controller.onFalse();
-    }
-
 
     if(controller.getAButton()) {
       motor.set(0.8);
     } else {
-      motor.set(0.0);
+     // motor.set(0.0);
     }
 
     if(controller.getLeftTriggerAxis() > 0.5) {
       queuer.setIntakeMode(true);
-    }else{
-      queuer.setIntakeMode(false);
-    }
-    if(controller.getRightTriggerAxis() > 0.5) {
-      queuer.setShootingMode(true);
-    }else{
-      queuer.setShootingMode(false);
-    }
-
-    if(controller.getLeftTriggerAxis() > 0.5) {
       shooter.setIntakeMode(true);
     }else{
+      queuer.setIntakeMode(false);
       shooter.setIntakeMode(false);
     }
+
     if(controller.getRightTriggerAxis() > 0.5) {
       shooter.setShootingMode(true);
-    }else{
+      Commands.waitSeconds(1);
+      queuer.setShootingMode(true);
+      Commands.waitSeconds(0.5);
+      queuer.setIntakeMode(false);
+      shooter.setIntakeMode(false);
+    }
+    else{
+      queuer.setShootingMode(false);
       shooter.setShootingMode(false);
     }
   }
