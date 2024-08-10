@@ -36,5 +36,15 @@ public class QueuerSubsystem extends LifecycleSubsystem{
     this.shooting = shoot;
   }
 
+  public Object setIntakeCommand(boolean b) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setIntakeCommand'");
+  }
+
+  public Object setShootingCommand(boolean b) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setShootingCommand'");
+  }
+
 
 }
